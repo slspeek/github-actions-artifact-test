@@ -2,13 +2,14 @@ name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
-  check-bats-version:
+  create-and-upload-artifact:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - run: echo "Artifact from action"> artifact.txt
+      - name: Archive production artifact
+        uses: actions/upload-artifact@v3
         with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+          name: artifact
+          path: artifact.txt
 
