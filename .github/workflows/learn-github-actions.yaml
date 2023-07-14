@@ -1,15 +1,18 @@
-name: learn-github-actions
-run-name: ${{ github.actor }} is learning GitHub Actions
-on: [push]
+name: Main
+
+on: push
+
 jobs:
-  create-and-upload-artifact:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - run: echo "Artifact from action"> artifact.txt
-      - name: Archive production artifact
-        uses: actions/upload-artifact@v3
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: echo ${{ github.sha }} > Release.txt
+      - name: Test
+        run: cat Release.txt
+      - name: Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: artifact
-          path: artifact.txt
-
+          files: Release.txt
